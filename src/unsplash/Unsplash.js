@@ -2,6 +2,7 @@ import { createApi } from 'unsplash-js';
 import logger from '../utils/logger.js';
 import fetch from 'node-fetch';
 import fs from 'fs';
+import path from 'path';
 
 
 export class Unsplash {
@@ -10,7 +11,9 @@ export class Unsplash {
     this.unsplash = createApi({ accessKey, fetch });
   }
 
-  async getPhoto(type, query, page = 1, per_page = 8, orientation = 'landscape' ) {
+  async getPhoto(type, idea, page = 1, per_page = 8, orientation = 'landscape' ) {
+    const title = idea.title;
+    const query = idea.unsplash_phrase;
     try {
       // Log that a request is being sent to the Unsplash API
       logger.info(`Sending request to Unsplash API with search phrase: ${query}`);
@@ -67,11 +70,16 @@ export class Unsplash {
           // Convert the photo buffer to a Buffer
           const image = Buffer.from(photoBuffer);
            // Create a file path for the photo
-          const filePath = `src/images/${query}.jpg`
-          // Write the photo to the file system
-          await fs.promises.writeFile(filePath, image);
-          console.log(caption);
-          console.log(`${query}.jpg saved`);
+          const filePath = `src/post/${title}/${query}.jpg`
+          const dir = path.dirname(filePath);
+
+          // Dynamically create file directory and save image, then log in console
+          fs.mkdir(dir, { recursive: true }, (err) => {
+            if (err) {
+              throw err;
+            }
+            fs.promises.writeFile(filePath, image);
+          });
           break;
         default:
           console.log(`Invalid type: ${type}`);

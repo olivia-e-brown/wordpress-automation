@@ -1,0 +1,43 @@
+
+
+<h2>What is Undefined?</h2>
+
+<p>We've all seen it before: the dreaded "undefined" message when we can't figure out what went wrong with our code. But what is undefined exactly?</p>
+
+<p>Simply put, "undefined" is an indication that a variable does not exist or is not defined. It is an error message that appears when a variable is not defined or is misspelled. In other words, when a program encounters an element that is not defined, it will report that element as "undefined".</p>
+
+<h3>1. Undefined Is Not a Value</h3>
+
+<p>It's important to remember that undefined is not a value. It is an indication that a variable does not exist in the program. Trying to assign a value to a variable that does not exist will generate an error as "undefined":</p>
+
+<pre><code>let myVariable;
+console.log(myVariable); // logs 'undefined'
+myVariable = 'something';
+console.log(myVariable); // logs 'something'</code></pre>
+
+<h3>2. Javascript’s Global Object</h3>
+
+<p>In JavaScript, the global object is an object that is accessible from anywhere within the code. It contains all the variables and functions that you have defined or used. If you try to access a variable that does not exist, the global object will return "undefined":</p>
+
+<pre><code>let myVariable;
+console.log(global.myVariable); // logs 'undefined'</code></pre>
+
+<h3>3. Unassigned Variables</h3>
+
+<p>Unassigned variables are variables that have been declared but not given an explicit value. An unassigned variable will return "undefined" when accessed:</p>
+
+<pre><code>let myVariable;
+console.log(myVariable); // logs 'undefined'</code></pre>
+
+<h3>4. Difference Between Null and Undefined</h3>
+
+<p>The difference between null and undefined is subtle, but important. Null is an explicit value that is used to indicate that a value is not assigned, while undefined is the value that is returned when a variable does not exist or when a value is not assigned. null is an assignment value, while undefined is a result of an incorrect function call or a problem during evaluation.</p>
+
+<h3>5. Checking for Undefined</h3>
+
+<p>Since "undefined" is not a true value, you can use the typeof operator to check if a variable is undefined. The typeof operator will return "undefined" if the variable is not defined or does not exist in the program:</p>
+
+<pre><code>let myVariable;
+console.log(typeof myVariable); // logs 'undefined'</code></pre>
+
+<p>Now that you understand what undefined is, you can use this knowledge to debug any errors you may run into in your code.</p>
