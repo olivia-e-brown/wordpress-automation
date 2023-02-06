@@ -4,22 +4,21 @@ import fetch from 'node-fetch';
 import fs from 'fs';
 import path from 'path';
 
-
 export class Unsplash {
-  constructor(accessKey) {
+  constructor (accessKey) {
     // Create an instance of the Unsplash API using the provided access key
     this.unsplash = createApi({ accessKey, fetch });
   }
 
-  async getPhoto(type, idea, page = 1, per_page = 8, orientation = 'landscape' ) {
+  async getPhoto (type, idea, page = 1, per_page = 8, orientation = 'landscape') {
     const title = idea.title;
     const query = idea.unsplash_phrase;
     try {
       // Log that a request is being sent to the Unsplash API
       logger.info(`Sending request to Unsplash API with search phrase: ${query}`);
 
-       // Send a request to the Unsplash API to search for photos
-      const response  = await this.unsplash.search.getPhotos({
+      // Send a request to the Unsplash API to search for photos
+      const response = await this.unsplash.search.getPhotos({
         query,
         page,
         per_page,
@@ -49,28 +48,29 @@ export class Unsplash {
       `;
 
       // Log that a response has been received
-      logger.info(`Received response from Unsplash API`);
+      logger.info('Received response from Unsplash API');
 
       // Check the value of the "type" parameter and execute the corresponding code block
       switch (type) {
-        case 'buffer':
+        case 'buffer': {
           // Convert the photo buffer to Uint8Array
           const data = new Uint8Array(photoBuffer);
           console.log(`${query}.jpg buffer ready`);
           // Return an object containing the photo's buffer and attributes
           return {
             attributes: {
-              caption: caption,
+              caption,
               title: query.toLowerCase(),
               alt_text: `an image of ${query.toLowerCase()}`,
             },
-            buffer: data
+            buffer: data,
           };
-        case 'file':
+        }
+        case 'file': {
           // Convert the photo buffer to a Buffer
           const image = Buffer.from(photoBuffer);
-           // Create a file path for the photo
-          const filePath = `src/post/${title}/${query}.jpg`
+          // Create a file path for the photo
+          const filePath = `src/post/${query}.jpg`;
           const dir = path.dirname(filePath);
 
           // Dynamically create file directory and save image, then log in console
@@ -81,6 +81,7 @@ export class Unsplash {
             fs.promises.writeFile(filePath, image);
           });
           break;
+        }
         default:
           console.log(`Invalid type: ${type}`);
           return null;
@@ -90,5 +91,4 @@ export class Unsplash {
       return null;
     }
   }
-
 }
